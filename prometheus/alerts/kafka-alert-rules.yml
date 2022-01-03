@@ -1,0 +1,87 @@
+# Licedsed to the Creative Commons Attribution 4.0 International License (CC BY 4.0)
+#
+# http://creativecommons.org/licenses/by/4.0/
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# refer to based on: https://awesome-prometheus-alerts.grep.to/rules
+#
+groups:
+  # see: https://github.com/danielqsj/kafka_exporter
+  - name: danielqsj-kafka.alerting-prometheus.io
+    rules:
+    - alert: KafkaTopicsReplicas
+      expr: sum(kafka_topic_partition_in_sync_replica) by (topic) < 3
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kafka topics replicas (instance {{ $labels.instance }})
+        description: "Kafka topic in-sync partition\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KafkaConsumersGroup
+      expr: sum(kafka_consumergroup_lag) by (consumergroup) > 50
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: Kafka consumers group (instance {{ $labels.instance }})
+        description: "Kafka consumers group\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  # see: https://github.com/linkedin/Burrow
+  - name: linkedin-kafka.alerting-prometheus.io
+    rules:
+    - alert: KafkaTopicOffsetDecreased
+      expr: delta(kafka_burrow_partition_current_offset[1m]) < 0
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kafka topic offset decreased (instance {{ $labels.instance }})
+        description: "Kafka topic offset has decreased\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KafkaConsumerLag
+      expr: 'kafka_burrow_topic_partition_offset - on(partition, cluster, topic) group_right() kafka_burrow_partition_current_offset >= (kafka_burrow_topic_partition_offset offset 15m - on(partition, cluster, topic) group_right() kafka_burrow_partition_current_offset offset 15m) AND kafka_burrow_topic_partition_offset - on(partition, cluster, topic) group_right() kafka_burrow_partition_current_offset > 0'
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kafka consumer lag (instance {{ $labels.instance }})
+        description: "Kafka consumer has a 30 minutes and increasing lag\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  # see: https://github.com/prometheus/jmx_exporter
+  - name: jmx-kafka.alerting-prometheus.io
+    rules:
+    - alert: KafkaServerBrokerTopicFailedProducer
+      expr: kafka_server_brokertopicmetrics_failedproducerequests_total > 0
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kafka server broker topic failed producer (instance {{ $labels.instance }})
+        description: "Kafka server broker topic failed producer\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KafkaServerBrokerTopicFailedFetch
+      expr: kafka_server_brokertopicmetrics_failedfetchrequests_total > 0
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kafka server broker topic failed fetch (instance {{ $labels.instance }})
+        description: "Kafka server broker topic failed fetch\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KafkaServerSessionExpireZkDisconnects
+      expr: kafka_server_sessionexpirelistener_zookeeperdisconnects_total > 0
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        summary: Kafka server session expire zk disconnects (instance {{ $labels.instance }})
+        description: "Kafka server session expire zk disconnects\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

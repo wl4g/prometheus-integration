@@ -1,0 +1,57 @@
+# Licedsed to the Creative Commons Attribution 4.0 International License (CC BY 4.0)
+#
+# http://creativecommons.org/licenses/by/4.0/
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# refer to based on: https://awesome-prometheus-alerts.grep.to/rules
+#
+groups:
+  # see: https://github.com/dabealu/zookeeper-exporter
+  - name: dabealu-zookeeper.alerting-prometheus.io
+    rules:
+    - alert: ZookeeperDown
+      expr: zk_up == 0
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Zookeeper Down (instance {{ $labels.instance }})
+        description: "Zookeeper down on instance {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: ZookeeperMissingLeader
+      expr: sum(zk_server_leader) == 0
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Zookeeper missing leader (instance {{ $labels.instance }})
+        description: "Zookeeper cluster has no node marked as leader\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: ZookeeperTooManyLeaders
+      expr: sum(zk_server_leader) > 1
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Zookeeper Too Many Leaders (instance {{ $labels.instance }})
+        description: "Zookeeper cluster has too many nodes marked as leader\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: ZookeeperNotOk
+      expr: zk_ruok == 0
+      for: 3m
+      labels:
+        severity: warning
+      annotations:
+        summary: Zookeeper Not Ok (instance {{ $labels.instance }})
+        description: "Zookeeper instance is not ok\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
