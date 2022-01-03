@@ -1,4 +1,4 @@
-# Prometheus Integration for Alsertmanager
+# Prometheus Integration for Alertmanager
 
 ## 1. Configuring
 
