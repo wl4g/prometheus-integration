@@ -1,8 +1,13 @@
 # Prometheus Integration for Hadoop
 
-## 1. Configuring
+## 1. Catalog
 
-### 1.1 Hadoop Configuring
+- [hadoop-alert-rules.yml](hadoop-alert-rules.yml)
+- [hadoop-jmx-rules.yml](hadoop-jmx-rules.yml)
+
+## 2. Configuring
+
+### 2.1 Hadoop Configuring
 
 - ADD jmx agent to NameNode
 
@@ -36,7 +41,7 @@ KEY2='YARN_OPTS="$YARN_OPTS -javaagent:/etc/emr/agent-conf/jmx_prometheus_javaag
 sed -i "s#$KEY1#$KEY1\n  $KEY2#g" $HADOOP_HOME/bin/yarn
 ```
 
-### 1.2 HBase Configuring
+### 2.2 HBase Configuring
 
 - ADD jmx agent to HMaster
 

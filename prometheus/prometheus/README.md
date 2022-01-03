@@ -1,6 +1,10 @@
 # Prometheus Integration for Self
 
-## 1. Configuring
+## 1. Catalog
+
+- [prometheus-alert-rules.yml](prometheus-alert-rules.yml)
+
+## 2. Configuring
 
 - Example self monitoring
 
@@ -40,7 +44,7 @@ scrape_configs:
 EOF
 ```
 
-## 2. Deploy for Docker
+## 3. Deploy for Docker
 
 - Example refer to: [https://blogs.wl4g.com/archives/1885](https://blogs.wl4g.com/archives/1885)
 
@@ -59,3 +63,7 @@ docker run -tid --name=prometheus1 -p 9090:9090 \
 --web.listen-address="0.0.0.0:9090" \
 --web.enable-admin-api
 ```
+
+## 4. Deploy for Kubernetes
+
+TODO
