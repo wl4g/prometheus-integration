@@ -17,7 +17,7 @@
 #
 lowercaseOutputName: true
 rules:
-# Kafka v2 JMX exporter rules.
+# Kafka v20 JMX exporter rules.
 # Special cases and very specific rules
 - pattern : kafka.server<type=(.+), name=(.+), clientId=(.+), topic=(.+), partition=(.*)><>Value
   name: kafka_server_$1_$2

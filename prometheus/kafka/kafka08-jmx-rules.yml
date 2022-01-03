@@ -17,6 +17,7 @@
 #
 lowercaseOutputName: true
 rules:
+# Kafka v08 JMX exporter rules.
 - pattern : kafka.cluster<type=(.+), name=(.+), topic=(.+), partition=(.+)><>Value
   name: kafka_cluster_$1_$2
   labels:

@@ -21,7 +21,7 @@
 #
 groups:
   # see: https://github.com/google/cadvisor
-  - name: cAdvisor-container.alerting-prometheus.io
+  - name: cAdvisor-containerd.alerting-prometheus.io
     rules:
     # This rule can be very noisy in dynamic infra with legitimate container start/stop/deployment.
     - alert: ContainerKilled

@@ -20,6 +20,7 @@
 # refer to based on: https://awesome-prometheus-alerts.grep.to/rules
 #
 groups:
+  # see: https://github.com/prometheus/mysqld_exporter
   - name: mysqld.alerting-prometheus.io
     rules:
     - alert: MysqlDown
@@ -94,3 +95,28 @@ groups:
       annotations:
         summary: MySQL restarted (instance {{ $labels.instance }})
         description: "MySQL has just been restarted, less than one minute ago on {{ $labels.instance }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    # see: https://gitee.com/wl4g-collect/mysqld_exporter/raw/master/mysqld-mixin/alerts/galera.yaml
+    - alert: MySQLReplicationLag
+      expr: (instance:mysql_heartbeat_lag_seconds > 30) and on(instance) (predict_linear(instance:mysql_heartbeat_lag_seconds[5m], 60 * 2) > 0)
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: MySQL replication (instance {{ $labels.instance }})
+        description: "MySQL replication, less than one minute ago on {{ $labels.instance }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: MySQLReplicationLag
+      expr: (instance:mysql_heartbeat_lag_seconds > 30) and on(instance) (predict_linear(instance:mysql_heartbeat_lag_seconds[5m], 60 * 2) > 0)
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: MySQL replication (instance {{ $labels.instance }})
+        description: "MySQL replication, less than one minute ago on {{ $labels.instance }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: MySQLReplicationNotRunning
+      expr: mysql_slave_status_slave_io_running == 0 or mysql_slave_status_slave_sql_running == 0
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: Slave replication is not running (instance {{ $labels.instance }})
+        description: "Slave replication (IO or SQL) has been down for more than 2 minutes on {{ $labels.instance }}.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

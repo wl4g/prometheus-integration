@@ -1,3 +1,7 @@
+# Licedsed to the Creative Commons Attribution 4.0 International License (CC BY 4.0)
+#
+# http://creativecommons.org/licenses/by/4.0/
+#
 # Licensed to the Apache Software Foundation (ASF) under one or more
 # contributor license agreements.  See the NOTICE file distributed with
 # this work for additional information regarding copyright ownership.
@@ -13,11 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# refer to based on: https://github.com/prometheus/jmx_exporter
-#
-lowercaseOutputName: true
-rules:
-# Exemple: Hadoop:service=NameNode,name=FSNamesystem (http://localhost:50070/jmx)
-# Exemple: Hadoop:service=HBase,name=Master,sub=FileSystem (http://localhost:16010/jmx)
-- pattern: Hadoop<service=(\w+), name=(\w+), sub=(\w+)><>(\w+)
-  name: hbase_$2_$3_$4
+groups:
+  - name: hadoop.alerting-prometheus.io
+    rules:
