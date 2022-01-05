@@ -8,21 +8,21 @@
 # limitations under the License.
 #
 [Unit]
-Description=MySQLd Exporter
+Description=Node Exporter
 
 [Service]
 User=root
 Group=root
-EnvironmentFile=-/etc/sysconfig/mysqld_exporter.conf
-ExecStart=/usr/bin/mysqld_exporter $OPTIONS
+EnvironmentFile=-/etc/sysconfig/node_exporter
+ExecStart=/usr/sbin/node_exporter $OPTIONS
 ExecReload=/bin/kill -s HUP
 StandardOutput=journal
 StandardError=journal
-LimitNOFILE=16
-LimitNPROC=16
+LimitNOFILE=64
+LimitNPROC=64
 LimitCORE=infinity
 TimeoutStartSec=10
-TimeoutSec=300
+TimeoutSec=600
 Restart=always
 
 [Install]

@@ -10,7 +10,7 @@
 
 ## 2. Configuring
 
-- Example refer to: [https://blogs.wl4g.com/archives/2381](https://blogs.wl4g.com/archives/2381)
+- Detail refer to: [https://blogs.wl4g.com/archives/2381](https://blogs.wl4g.com/archives/2381)
 
 ```bash
 KEY1='exec $base_dir/kafka-run-class.sh $EXTRA_ARGS kafka.Kafka "$@"'

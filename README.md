@@ -28,6 +28,7 @@ Integration provides an extension of Prometheus monitoring model to support toda
   - [node integration](prometheus/node/README.md)
   - [postgresql integration](prometheus/postgresql/README.md)
   - [prometheus integration (self monitoring)](prometheus/prometheus/README.md)
+  - [pushgateway integration](prometheus/pushgateway/README.md)
   - [redis integration](prometheus/redis/README.md)
   - [shardingproxy integration](prometheus/shardingproxy/README.md)
   - [spark integration](prometheus/spark/README.md)

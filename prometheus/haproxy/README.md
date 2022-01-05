@@ -13,7 +13,7 @@
 
 ## 2. Deploy on Host
 
-- Example refer to: [https://blogs.wl4g.com/archives/743](https://blogs.wl4g.com/archives/743)
+- Detail refer to: [https://blogs.wl4g.com/archives/743](https://blogs.wl4g.com/archives/743)
 
 - Configuring haproxy.cfg
 

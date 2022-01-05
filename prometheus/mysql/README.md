@@ -10,6 +10,16 @@
   - [dashboard-mysql-overview-7362-rev5.json](dashboard-mysql-overview-7362-rev5.json)
   - [mysqld-alert-rules.yml](mysqld-alert-rules.yml)
 
-## 2. Configuring
+## 2. Deploy on Host
 
-- Example refer to: [https://blogs.wl4g.com/archives/743](https://blogs.wl4g.com/archives/743)
+- Detail refer to: [https://blogs.wl4g.com/archives/743](https://blogs.wl4g.com/archives/743)
+
+- Testing
+
+```bash
+curl http://localhost:9104/metrics
+```
+
+## 3. Deploy on Kubernetes
+
+TODO

@@ -8,21 +8,19 @@
 # limitations under the License.
 #
 [Unit]
-Description=MySQLd Exporter
+Description=Prometheus Pushgateway
 
 [Service]
-User=root
-Group=root
-EnvironmentFile=-/etc/sysconfig/mysqld_exporter.conf
-ExecStart=/usr/bin/mysqld_exporter $OPTIONS
+EnvironmentFile=-/etc/sysconfig/pushgateway.conf
+ExecStart=/usr/bin/pushgateway $OPTIONS
 ExecReload=/bin/kill -s HUP
 StandardOutput=journal
 StandardError=journal
-LimitNOFILE=16
-LimitNPROC=16
+LimitNOFILE=64
+LimitNPROC=64
 LimitCORE=infinity
 TimeoutStartSec=10
-TimeoutSec=300
+TimeoutSec=600
 Restart=always
 
 [Install]
