@@ -1,5 +1,9 @@
 # Prometheus Integration for CoreDNS
 
-## 1. Configuring
+## 1. Catalog
+
+- [coredns-alert-rules.yml](coredns-alert-rules.yml)
+
+## 2. Configuring
 
 TODO

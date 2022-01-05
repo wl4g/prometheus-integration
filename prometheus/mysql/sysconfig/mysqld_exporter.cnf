@@ -1,0 +1,10 @@
+[client]
+# see: https://github.com/wl4g-collect/mysqld_exporter/blob/master/mysqld_exporter.go#L137
+#socket = /run/mysqld.sock # Priority
+#ssl-ca =
+#ssl-cert =
+#ssl-key =
+host = 127.0.0.1
+port = 3306
+user = mysqld_exporter
+password = mysqld_exporter

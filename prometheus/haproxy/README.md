@@ -2,11 +2,16 @@
 
 ## 1. Catalog
 
-- [dashboard-haproxy-2428-rev7.json](dashboard-haproxy-2428-rev7.json)
-- [dashboard-haproxy2-full-12693-rev4.json](dashboard-haproxy2-full-12693-rev4.json)
-- [haproxy-alert-rules.yml](haproxy-alert-rules.yml)
+- [haproxy_exporter](haproxy_exporter) configuration
+  - [/etc/sysconfig/haproxy_exporter.conf](sysconfig/haproxy_exporter.conf)
+  - [/etc/systemd/system/haproxy_exporter.service](systemd/haproxy_exporter.service)
 
-## 2. Deploy to Host
+- Monitoring alerting configuration
+  - [dashboard-haproxy-2428-rev7.json](dashboard-haproxy-2428-rev7.json) from [https://grafana.com/grafana/dashboards/2428](https://grafana.com/grafana/dashboards/2428)
+  - [dashboard-haproxy2-full-12693-rev4.json](dashboard-haproxy2-full-12693-rev4.json) from [https://grafana.com/grafana/dashboards/12693](https://grafana.com/grafana/dashboards/12693)
+  - [haproxy-alert-rules.yml](haproxy-alert-rules.yml)
+
+## 2. Deploy on Host
 
 - Example refer to: [https://blogs.wl4g.com/archives/743](https://blogs.wl4g.com/archives/743)
 
@@ -161,6 +166,6 @@ curl "http://localhost:8404/stats?;csv"
 curl "http://localhost:9101/metrics"
 ```
 
-## 3. Deploy to Kubernetes
+## 3. Deploy on Kubernetes
 
 TODO

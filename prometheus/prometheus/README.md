@@ -44,7 +44,7 @@ scrape_configs:
 EOF
 ```
 
-## 3. Deploy for Docker
+## 3. Deploy on Docker
 
 - Example refer to: [https://blogs.wl4g.com/archives/1885](https://blogs.wl4g.com/archives/1885)
 
@@ -64,6 +64,6 @@ docker run -tid --name=prometheus1 -p 9090:9090 \
 --web.enable-admin-api
 ```
 
-## 4. Deploy for Kubernetes
+## 4. Deploy on Kubernetes
 
 TODO

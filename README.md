@@ -4,7 +4,7 @@ Integration provides an extension of Prometheus monitoring model to support toda
 
 ## Catalog
 
-- [Prometheus configuration](prometheus/README.md)
+- [Prometheus configuration](prometheus/)
   - [apache integration](prometheus/apache/README.md)
   - [cassandra integration](prometheus/cassandra/README.md)
   - [ceph integration](prometheus/ceph/README.md)
