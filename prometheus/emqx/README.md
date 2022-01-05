@@ -69,6 +69,12 @@ docker run -itd \
 emqx/emqx:4.3.10
 ```
 
-## 2. Deploy on Kubernetes
+- Testing ([`pushgateway`](../pushgateway/README.md))
+
+```bash
+curl http://localhost:9091/metrics
+```
+
+## 3. Deploy on Kubernetes
 
 TODO
