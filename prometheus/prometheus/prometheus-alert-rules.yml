@@ -23,7 +23,7 @@ groups:
   - name: prometheus.alerting-prometheus.io
     rules:
     - alert: PrometheusJobMissing
-      expr: absent(up{job="prometheus"})
+      expr: absent(up{job="prometheus-job"})
       for: 0m
       labels:
         severity: warning
@@ -55,7 +55,7 @@ groups:
         summary: Prometheus configuration reload failure (instance {{ $labels.instance }})
         description: "Prometheus configuration reload error\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: PrometheusTooManyRestarts
-      expr: changes(process_start_time_seconds{job=~"prometheus|pushgateway|alertmanager"}[15m]) > 2
+      expr: changes(process_start_time_seconds{job=~"prometheus-job|pushgateway-job|alertmanager-job"}[15m]) > 2
       for: 0m
       labels:
         severity: warning

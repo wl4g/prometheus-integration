@@ -31,6 +31,16 @@ scrape_configs:
     - targets: ['localhost:9090']
       labels:
         instance: localhost:9090
+  - job_name: alertmanager-job # Here is the monitoring alertmanager itself.
+    static_configs:
+    - targets: ['localhost:9093']
+      labels:
+        instance: localhost:9093
+  - job_name: pushgateway-job
+    static_configs:
+    - targets: ['localhost:9091']
+      labels:
+        instance: localhost:9091
   - job_name: node-job
     static_configs:
     - targets: ['localhost:9100']
