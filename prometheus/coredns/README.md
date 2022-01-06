@@ -25,11 +25,7 @@ sudo curl -o /etc/systemd/system/coredns.service 'https://raw.githubusercontent.
 curl http://localhost:9253/metrics
 ```
 
-## 3. Deploy on Docker
-
-TODO
-
-## 4. Deploy on Kubernetes
+## 3. Deploy on Kubernetes
 
 - prometheus-operator-coredns-service.yaml
 
