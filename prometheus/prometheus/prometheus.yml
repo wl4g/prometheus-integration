@@ -1,0 +1,79 @@
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+#storage:
+  #local:
+  #retention: 168h0m0s
+  # max-chunks-to-persist: 3024288
+  # memory-chunks: 50502740
+  # num-fingerprint-mutexes: 300960
+  #tsdb:
+    #path: /mnt/disk1/prometheus/
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - 'localhost:9093'
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "first_rules.yml"
+  #- "second_rules.yml"
+
+# Metrics scrape configuration.
+scrape_configs:
+  - job_name: prometheus-job # Here is the monitoring prometheus itself.
+    static_configs:
+    - targets: ['localhost:9090']
+      labels:
+        instance: localhost:9090
+  - job_name: node-job
+    static_configs:
+    - targets: ['localhost:9100']
+      labels:
+        instance: localhost
+  - job_name: haproxy-job
+    static_configs:
+    - targets: ['localhost:9101']
+      labels:
+        instance: localhost:9101
+  - job_name: mysqld-job
+    static_configs:
+    - targets: ['localhost:9104']
+      labels:
+        instance: localhost:9104
+  - job_name: kafka-job
+    static_configs:                                                              
+    - targets: ['localhost:10105']                                               
+      labels:                                                                    
+        instance: localhost:10105
+  - job_name: hbase-job
+    static_configs:                                                              
+    - targets: ['localhost:10106']                                               
+      labels:                                                                    
+        instance: localhost:10106
+  - job_name: hadoop-job
+    static_configs:
+    - targets: ['localhost:10107']
+      labels:
+        instance: localhost:10107
+  - job_name: zookeeper-job
+    static_configs:
+    - targets: ['localhost:12181']
+      labels:
+        instance: localhost:12181
+  - job_name: shardingproxy-job
+    static_configs:
+    - targets: ['localhost:10108']
+      labels:     
+        instance: localhost:10108
+  - job_name: minio-job
+    bearer_token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQ3OTUwMzcwNTgsImlzcyI6InByb21ldGhldXMiLCJzdWIiOiJleUpoYkdjaU9pSklVelV4TWlJc0luUjVjQyJ9.Ce-qsB2xygtjR2lvfR5zSdt0JXXWG4b5B16MEyol40GdmgKP2u9t0CQxzix0dbpRrYg_1dimdWLcKcGuuzaJiQ
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: http
+    static_configs:
+    - targets: ['172.17.0.3:9000']

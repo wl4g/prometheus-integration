@@ -2,6 +2,7 @@
 
 ## 1. Catalog
 
+- [prometheus.yml](prometheus.yml)
 - [prometheus-alert-rules.yml](prometheus-alert-rules.yml)
 
 ## 2. Configuring
@@ -9,39 +10,7 @@
 - Example self monitoring
 
 ```bash
-cat <<EOF>/etc/prometheus/prometheus.yml
-global:
-  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
-
-storage:
-  #local:
-  #retention: 168h0m0s
-  # max-chunks-to-persist: 3024288
-  # memory-chunks: 50502740
-  # num-fingerprint-mutexes: 300960
-  #tsdb:
-    #path: /mnt/disk1/prometheus/
-
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-  - static_configs:
-    - targets:
-      - 'localhost:9093'
-
-# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-rule_files:
-  - "first_rules.yml"
-  #- "second_rules.yml"
-scrape_configs:
-  - job_name: prometheus
-    static_configs:
-    - targets: ['localhost:9090']
-      labels:
-        instance: localhost:9090
-EOF
+sudo curl -o /etc/prometheus/prometheus.yml 'https://raw.githubusercontent.com/wl4g/prometheus-integration/master/prometheus/prometheus/prometheus.yml'
 ```
 
 ## 3. Deploy on Docker
