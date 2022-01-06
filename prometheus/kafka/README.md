@@ -1,5 +1,7 @@
 # Prometheus Integration for JVM
 
+> Use the jmx_exporter jar library to convert the built-in jmx metrics expose.
+
 ## 1. Catalog
 
 - [dashboard-kafka-metrics-11962-rev4.json](dashboard-kafka-metrics-11962-rev4.json)

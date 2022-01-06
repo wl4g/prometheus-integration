@@ -1,5 +1,7 @@
 # Prometheus Integration for EMQx
 
+> Use the built-in prometheus metrics pushing to [pushgateway](../pushgateway/README.md).
+
 ## 1. Catalog
 
 - [mysqld_exporter](mysqld_exporter) configuration

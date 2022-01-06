@@ -1,5 +1,7 @@
 # Prometheus Integration for Hadoop
 
+> Use the jmx_exporter jar library to convert the built-in jmx metrics expose.
+
 ## 1. Catalog
 
 - [hadoop-alert-rules.yml](hadoop-alert-rules.yml)

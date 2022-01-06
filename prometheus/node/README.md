@@ -1,5 +1,7 @@
 # Prometheus Integration for Node
 
+> Obtain local OS metrics and expose them in  prometheus.
+
 ## 1. Catalog
 
 - [node_exporter](node_exporter) configuration

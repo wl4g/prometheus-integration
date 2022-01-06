@@ -1,5 +1,7 @@
 # Prometheus Integration for Mysqld
 
+> Use external mysqld_exporter to expose prometheus metrics.
+
 ## 1. Catalog
 
 - [mysqld_exporter](mysqld_exporter) configuration

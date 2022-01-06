@@ -1,5 +1,7 @@
 # Prometheus Integration for Etcd
 
+> Use the built-in expose prometheus metrics.
+
 ## 1. Catalog
 
 - [etcd-alert-rules.yml](etcd-alert-rules.yml)
