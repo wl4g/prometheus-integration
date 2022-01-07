@@ -1,0 +1,73 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Example envoy.yaml from: https://www.envoyproxy.io/docs/envoy/latest/start/docker#build-and-run-a-docker-image
+#
+admin:
+  address:
+    socket_address:
+      protocol: TCP
+      address: 0.0.0.0
+      port_value: 9901
+static_resources:
+  listeners:
+  - name: listener_0
+    address:
+      socket_address:
+        protocol: TCP
+        address: 0.0.0.0
+        port_value: 10000
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          scheme_header_transformation:
+            scheme_to_overwrite: https
+          stat_prefix: ingress_http
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains: ["*"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  host_rewrite_literal: www.envoyproxy.io
+                  cluster: service_envoyproxy_io
+          http_filters:
+          - name: envoy.filters.http.router
+  clusters:
+  - name: service_envoyproxy_io
+    connect_timeout: 30s
+    type: LOGICAL_DNS
+    # Comment out the following line to test on v6 networks
+    dns_lookup_family: V4_ONLY
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: service_envoyproxy_io
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: www.envoyproxy.io
+                port_value: 443
+    transport_socket:
+      name: envoy.transport_sockets.tls
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+        sni: www.envoyproxy.io
