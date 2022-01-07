@@ -25,3 +25,19 @@ groups:
       annotations:
         summary: Keepalived down (instance {{ $labels.instance }})
         description: "Keepalived instance is down on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KeepalivedAddressErrors
+      expr: keepalived_address_list_errors_total > 0
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Keepalived address errors (instance {{ $labels.instance }})
+        description: "Keepalived address errors on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: KeepalivedIpTTLErrors
+      expr: keepalived_ip_ttl_errors_total > 0
+      for: 0m
+      labels:
+        severity: warning
+      annotations:
+        summary: Keepalived ip ttl errors (instance {{ $labels.instance }})
+        description: "Keepalived ip ttl errors on {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
