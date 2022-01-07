@@ -6,7 +6,7 @@
 
 - [etcd-alert-rules.yml](etcd-alert-rules.yml)
 
-## 2. Deploy on Docker
+## 2. Deploy on Kubernetes
 
 - on host refer to: [https://blogs.wl4g.com/archives/972](https://blogs.wl4g.com/archives/972)
 
@@ -31,7 +31,3 @@
 cd /etc/kubernetes/pki/etcd
 curl -v --cacert ./ca.crt --cert ./peer.crt --key ./peer.key https://127.0.0.1:2379/metrics
 ```
-
-## 2. Deploy on Kubernetes
-
-TODO
