@@ -13,22 +13,22 @@
 - [https://github.com/wl4g/xcloud-shardingproxy#13-for-dockerusually-for-testing](https://github.com/wl4g/xcloud-shardingproxy#13-for-dockerusually-for-testing)
 
 ```bash
-sudo mkdir -p /mnt/disk1/shardingsphere-proxy/{conf,ext-lib}
-sudo mkdir -p /mnt/disk1/log/shardingsphere-proxy/
+sudo mkdir -p /mnt/disk1/shardingproxy/{conf,ext-lib}
+sudo mkdir -p /mnt/disk1/log/shardingproxy/
 
 docker network create --subnet=172.8.8.0/24 mysqlnet
 
 docker run -d \
---name ssp1 \
+--name sp1 \
 --net mysqlnet \
 --restart no \
 -p 3308:3308 \
--v /mnt/disk1/shardingsphere-proxy/conf:/opt/shardingsphere-proxy/conf/ \
--v /mnt/disk1/shardingsphere-proxy/ext-lib/:/opt/shardingsphere-proxy/ext-lib/ \
--v /mnt/disk1/log/shardingsphere-proxy/:/opt/shardingsphere-proxy/logs/ \
--e JVM_OPTS='-Djava.awt.headless=true' \
+-v /mnt/disk1/shardingproxy/conf:/opt/apps/ecm/shardingproxy-package.shardingsproxy-master-bin/conf/ \
+-v /mnt/disk1/shardingproxy/ext-lib/:/opt/apps/ecm/shardingproxy-package/shardingproxy-master-bin/ext-lib/ \
+-v /mnt/disk1/log/shardingproxy/:/opt/apps/ecm/shardingproxy-package/shardingproxy-master-bin/log/ \
+-e JAVA_OPTS='-Djava.awt.headless=true' \
 -e PORT=3308 \
-apache/shardingsphere-proxy:5.1.0
+wl4g/shardingproxy:5.1.0
 ```
 
 ## 2. Deploy on Kubernetes
