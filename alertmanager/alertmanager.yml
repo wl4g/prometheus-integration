@@ -1,28 +1,28 @@
 global: 
   resolve_timeout: 5m
   smtp_smarthost: 'smtp.163.com:465'
-  smtp_from: 'your email@163.com'
-  smtp_auth_username: 'your email@163.com'
-  smtp_auth_password: 'your password'
+  smtp_from: 'xxx@163.com'
+  smtp_auth_username: 'xxx@163.com'
+  smtp_auth_password: 'xxx'
   smtp_require_tls: false # see: smtp 454 Command not permitted when TLS active
   #wechat_api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'
 
 templates:
-  - 'template/*.tmpl'
+  - 'template/*.tpl'
 
 route:
   group_by: ['alertname'] # 报警分组依据
   group_wait: 10s # 最初即第一次等待多久时间发送一组警报的通知
   group_interval: 10s # 在发送新警报前的等待时间
   repeat_interval: 1m # 发送重复警报的周期, 对于email此项不可以设置过低, 以防smtp服务器拒绝
-  receiver: 'email' # 对应以下receivers
+  receiver: 'emailSender'
 
 receivers:
-  - name: 'email'
+  - name: 'emailSender'
     email_configs:
-      - to: '******@163.com'
+      - to: 'xxx@163.com'
         html: '{{ template "email.html" . }}'
-        headers: { Subject: "[WARN] 报警邮件"}
+        headers: { Subject: "[WARN] Prometheus Alerts"}
   #- name: 'webhook'
   #  webhook_configs:
   #    - url: 'http://127.0.0.1:5001'
@@ -36,12 +36,11 @@ receivers:
   #      api_secret: '******' # 企业微信(企业微信->自定应用->Secret)
   #      message: '{{ template "test_wechat.html" . }}'
 
-# 抑制器配置
+# Silence suppressor configuration
 inhibit_rules:
-  - source_match: # 源标签警报触发时抑制含有目标标签的警报，在当前警报匹配 status: 'High'
+  - source_match: # 当源tag警报时触发抑制含有目标tag的警报，在当前警报匹配 status='High'
       severity: 'critical'
       status: 'High'
     target_match:
       severity: 'warning'
     equal: ['alertname', 'dev', 'instance']
-

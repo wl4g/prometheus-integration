@@ -1,10 +1,10 @@
 {{ define "email.html" }}
 <table border="1">
         <tr>
-                <td>报警项</td>
-                <td>实例</td>
-                <td>报警阀值</td>
-                <td>开始时间</td>
+                <td>AlarmName</td>
+                <td>Instance</td>
+                <td>Threshold</td>
+                <td>StartTime</td>
         </tr>
         {{ range $i, $alert := .Alerts }}
                 <tr>
