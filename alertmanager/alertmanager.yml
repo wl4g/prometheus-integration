@@ -5,38 +5,66 @@ global:
   smtp_auth_username: 'xxx@163.com'
   smtp_auth_password: 'xxx'
   smtp_require_tls: false # see: smtp 454 Command not permitted when TLS active
-  #wechat_api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'
+  wechat_api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'
 
 templates:
   - 'template/*.tpl'
 
 route:
-  group_by: ['alertname'] # 报警分组依据
-  group_wait: 10s # 最初即第一次等待多久时间发送一组警报的通知
-  group_interval: 10s # 在发送新警报前的等待时间
-  repeat_interval: 1m # 发送重复警报的周期, 对于email此项不可以设置过低, 以防smtp服务器拒绝
-  receiver: 'emailSender'
+  # Alarm grouping
+  group_by: ['alertname']
+  # When a new group of alerts is created by an incoming alert, wait at
+  # least 'group_wait' to send the initial notification.
+  # This way ensures that you get multiple alerts for the same group that start
+  # firing shortly after another are batched together on the first
+  # notification.
+  group_wait: 10s
+  # When the first notification was sent, wait 'group_interval' to send a batch
+  # of new alerts that started firing for that group.
+  group_interval: 30s
+  # If an alert has successfully been sent, wait 'repeat_interval' to
+  # resend them.
+  repeat_interval: 30m
+  # The default receiver.
+  receiver: 'slackSender_0'
+  # All the above attributes are inherited by all child routes and can
+  # overwritten on each.
+  routes:
+    - receiver: "emailSender_0"
+      group_wait: 10s
+      match_re:
+        severity: critical|warning
+      continue: true
 
 receivers:
-  - name: 'emailSender'
+  - name: "slackSender_0"
+    slack_configs:
+      - api_url: 'https://hooks.slack.com/services/xx/xx/xxxx'
+        send_resolved: true
+        channel: 'monitoring'
+        text: "{{ range .Alerts }}<!channel> {{ .Annotations.summary }}\n{{ .Annotations.description }}\n{{ end }}"
+
+  - name: 'emailSender_0'
     email_configs:
       - to: 'xxx@163.com'
         html: '{{ template "email.html" . }}'
         headers: { Subject: "[WARN] Prometheus Alerts"}
-  #- name: 'webhook'
-  #  webhook_configs:
-  #    - url: 'http://127.0.0.1:5001'
-  #      send_resolved: true
-  #- name: 'wechat'
-  #  wechat_configs:
-  #    - send_resolved: true
-  #      to_party: '1' # 接收组ID
-  #      agent_id: '1000002' # 企业微信->自定应用->AgentId
-  #      corp_id: '******' # 企业信息(我的企业->CorpId[在底部])
-  #      api_secret: '******' # 企业微信(企业微信->自定应用->Secret)
-  #      message: '{{ template "test_wechat.html" . }}'
 
-# Silence suppressor configuration
+  - name: 'dingtalkSender_0'
+    webhook_configs:
+      - url: 'http://localhost:8060/dingtalk/ops/send'
+        send_resolved: true
+
+  - name: 'wechatSender_0'
+    wechat_configs:
+      - send_resolved: true
+        corp_id: '******' # 企业信息(我的企业->CorpId[在底部])
+        api_secret: '******' # 企业微信(企业微信->自定应用->Secret)
+        agent_id: '1000002' # 企业微信->自定应用->AgentId
+        to_party: '1' # group ID
+        message: '{{ template "test_wechat.html" . }}'
+
+# Silence inhibit configuration.
 inhibit_rules:
   - source_match: # 当源tag警报时触发抑制含有目标tag的警报，在当前警报匹配 status='High'
       severity: 'critical'

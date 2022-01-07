@@ -5,6 +5,7 @@
 ## 1. Catalog
 
 - [example-envoy.yaml](envoy/example-envoy.yaml)
+- [envoy-alert-rules.yml](envoy-alert-rules.yml)
 
 ## 2. Deploy on Docker
 

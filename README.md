@@ -1,6 +1,6 @@
 # Prometheus Integration
 
-Integration provides an extension of Prometheus monitoring model to support today's famous enterprise component monitoring integration
+This project is an extension of the Prometheus monitoring model and supports today's well-known enterprise component monitoring integration. Some alerts are based on: https://awesome-prometheus-alerts.grep.to/rules
 
 ## Catalog
 
