@@ -227,7 +227,7 @@ groups:
         summary: HAProxy HTTP slowing down (instance {{ $labels.instance }})
         description: "Average request time is increasing\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: HaproxyRetryHigh
-      expr: rate(sum by (backend) (haproxy_backend_retry_warnings_total)) > 10
+      expr: sum by (backend) (rate(haproxy_backend_retry_warnings_total[1m])) > 10
       for: 2m
       labels:
         severity: warning
@@ -251,7 +251,7 @@ groups:
         summary: HAProxy server down (instance {{ $labels.instance }})
         description: "HAProxy server is down\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: HaproxyFrontendSecurityBlockedRequests
-      expr: rate(sum by (frontend) (haproxy_frontend_requests_denied_total)) > 10
+      expr: rate(haproxy_frontend_requests_denied_total[1m]) > 10
       for: 2m
       labels:
         severity: warning
@@ -259,7 +259,7 @@ groups:
         summary: HAProxy frontend security blocked requests (instance {{ $labels.instance }})
         description: "HAProxy is blocking requests for security reason\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: HaproxyServerHealthcheckFailure
-      expr: increase(haproxy_server_check_failures_total) > 0
+      expr: increase(haproxy_server_check_failures_total[1m]) > 0
       for: 1m
       labels:
         severity: warning
