@@ -21,6 +21,7 @@
 #
 groups:
   # see: https://github.com/dabealu/zookeeper-exporter
+  # see: https://blog.csdn.net/qq_31977125/article/details/105529638
   - name: dabealu-zookeeper.alerting-prometheus.io
     rules:
     - alert: ZookeeperDown
@@ -31,6 +32,14 @@ groups:
       annotations:
         summary: Zookeeper Down (instance {{ $labels.instance }})
         description: "Zookeeper down on instance {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: ZoookeeperLeaderState
+      expr: zk_server_state{state="leader"} !=1
+      for: 1m
+      labels:
+        severity: Critical
+      annotations:
+        summary: "{{$labels.instance }} zoookeeper leader is die."
+        description: "{{$labels.instance }} zoookeeper leader is die, please check it quickly."
     - alert: ZookeeperMissingLeader
       expr: sum(zk_server_leader) == 0
       for: 0m
@@ -55,3 +64,14 @@ groups:
       annotations:
         summary: Zookeeper Not Ok (instance {{ $labels.instance }})
         description: "Zookeeper instance is not ok\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  # see: Using zookeeper jmx of https://github.com/prometheus/jmx_exporter
+  - name: jmx-zookeeper.alerting-prometheus.io
+    rules:
+    - alert: ZookeeperHigtAliveConnections
+      expr: zookeeper_NumAliveConnections >= 2000
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Zookeeper too many alive connections (instance {{ $labels.instance }})
+        description: "Zookeeper too many alive connections >=2000 {{ $labels.instance }}\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

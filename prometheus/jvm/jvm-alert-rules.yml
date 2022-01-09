@@ -22,11 +22,19 @@
 groups:
   - name: jvm.alerting-prometheus.io
     rules:
-    - alert: JvmMemoryFillingUp
+    - alert: JvmHeapMemoryFillingUp
       expr: (sum by (instance)(jvm_memory_used_bytes{area="heap"}) / sum by (instance)(jvm_memory_max_bytes{area="heap"})) * 100 > 80
       for: 2m
       labels:
         severity: warning
       annotations:
-        summary: JVM memory filling up (instance {{ $labels.instance }})
+        summary: JVM heap memory filling up (instance {{ $labels.instance }})
         description: "JVM memory is filling up (> 80%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+    - alert: JvmGcRunningTimeTooLong
+      expr: increase(jvm_gc_collection_seconds_sum{gc="PS MarkSweep"}[5m]) > 5 * 60 * 0.8
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        summary: "JVM Instance {{ $labels.instance }} Old GC time > 80% running time."
+        description: "JVM {{ $labels.instance }} of job {{ $labels.job }} has been in status [Old GC time > 80% running time] for more than 5 minutes. current seconds ({{ $value }}%)"

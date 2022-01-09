@@ -23,13 +23,13 @@ groups:
   - name: memory.node.alerting-prometheus.io
     rules:
     - alert: HostOutOfMemory
-      expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10
+      expr: (node_memory_MemTotal_bytes - (node_memory_MemFree_bytes+node_memory_Buffers_bytes+node_memory_Cached_bytes )) / node_memory_MemTotal_bytes * 100 > 80
       for: 2m
       labels:
         severity: warning
       annotations:
         summary: Host out of memory (instance {{ $labels.instance }})
-        description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+        description: "Node out of memory (used >= 80%)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
     - alert: HostMemoryUnderMemoryPressure
       expr: rate(node_vmstat_pgmajfault[1m]) > 1000
       for: 2m
@@ -309,3 +309,29 @@ groups:
       annotations:
         summary: Host EDAC Uncorrectable Errors detected (instance {{ $labels.instance }})
         description: "Host {{ $labels.instance }} has had {{ printf \"%.0f\" $value }} uncorrectable memory errors reported by EDAC in the last 5 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  - name: netstat.node.alerting-prometheus.io
+    rules:
+    - alert: HostHighNetworkIn
+      expr: sum by (instance) (irate(node_network_receive_bytes_total[2m]))/1024/1024>100
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Incoming network bandwidth is too high on {{ $labels.instance }}:{{$labels.mountpoint}}"
+        description: "{{ $labels.instance }}:{{$labels.mountpoint}} abnormal incoming network, >= 100M"
+    - alert: HostHighNetworkOut
+      expr: sum by (instance) (irate(node_network_transmit_bytes_total[2m]))/1024/1024>100
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Outcoming network bandwidth is too high on {{ $labels.instance }}:{{$labels.mountpoint}}"
+        description: "{{ $labels.instance }}:{{$labels.mountpoint}} abnormal outcoming network, >= 100M"
+    - alert: HostHighNetTcpEstab
+      expr: node_netstat_Tcp_CurrEstab > 5000
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Tcp established count is too high on {{ $labels.instance }}:{{$labels.mountpoint}}"
+        description: "{{ $labels.instance }}:{{$labels.mountpoint}} abnormal Tcp established count, >= 5000"

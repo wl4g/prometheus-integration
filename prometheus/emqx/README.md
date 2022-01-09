@@ -79,4 +79,6 @@ curl http://localhost:9091/metrics
 
 ## 3. Deploy on Kubernetes
 
-TODO
+- Official refer to: [https://docs.emqx.io/en/broker/v4.3/configuration/configuration.html#cluster-k8s-apiserver](https://docs.emqx.io/en/broker/v4.3/configuration/configuration.html#cluster-k8s-apiserver)
+
+- Official helm deploy refer to: [https://github.com/emqx/emqx/tree/v4.3.11/deploy/charts/emqx](https://github.com/emqx/emqx/tree/v4.3.11/deploy/charts/emqx)
